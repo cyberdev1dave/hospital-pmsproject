@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Create account{% endblock %}
+{% block css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">{% endblock %}
+{% block flashes %}{% endblock %}
+{% block content %}
+  <main class="auth">
+    <section class="auth__card">
+
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Hospital logo" class="auth__logo">
+      <h1 class="auth__title">Create your account</h1>
+      <p class="auth__subtitle">Register to book and manage your visits.</p>
+      {% include "_flashes.html" %}
+
+      <form class="form" id="registerForm" action="{{ url_for('register') }}" method="post" novalidate>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="next" value="{{ next }}">
+
+        <div class="field">
+          <label for="name">Full name</label>
+          <input type="text" id="name" name="name" value="{{ form.get('name', '') }}" placeholder="Your full name" autocomplete="name" required>
+        </div>
+
+        <div class="field">
+          <label for="email">Email address</label>
+          <input type="email" id="email" name="email" value="{{ form.get('email', '') }}" placeholder="you@example.com" autocomplete="email" required>
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone number</label>
+          <input type="tel" id="phone" name="phone" value="{{ form.get('phone', '') }}" placeholder="+234 ..." autocomplete="tel" required>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="field__password">
+            <input type="password" id="password" name="password" placeholder="At least 8 characters" autocomplete="new-password" minlength="8" required>
+            <button type="button" class="toggle" id="togglePassword" aria-label="Show password">Show</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="confirm">Confirm password</label>
+          <input type="password" id="confirm" name="confirm" placeholder="Repeat your password" autocomplete="new-password" required>
+          <span class="field__error" id="confirmError"></span>
+        </div>
+
+        <div class="form__row">
+          <label class="check">
+            <input type="checkbox" name="terms" required> I agree to the terms
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn--full">Create account</button>
+      </form>
+
+      <p class="auth__footer">
+        Already registered? <a href="{{ url_for('login', next=next) }}" class="link">Log in</a>
+      </p>
+
+    </section>
+  </main>
+{% endblock %}

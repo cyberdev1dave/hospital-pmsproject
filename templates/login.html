@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Log in{% endblock %}
+{% block css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">{% endblock %}
+{% block flashes %}{% endblock %}
+{% block content %}
+  <main class="auth">
+    <section class="auth__card">
+
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Hospital logo" class="auth__logo">
+      <h1 class="auth__title">Welcome back</h1>
+      <p class="auth__subtitle">Log in to manage your appointments.</p>
+      {% include "_flashes.html" %}
+
+      <form class="form" action="{{ url_for('login') }}" method="post" novalidate>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="next" value="{{ next }}">
+
+        <div class="field">
+          <label for="email">Email address</label>
+          <input type="email" id="email" name="email" value="{{ form.get('email', '') }}" placeholder="you@example.com" autocomplete="email" required>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="field__password">
+            <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+            <button type="button" class="toggle" id="togglePassword" aria-label="Show password">Show</button>
+          </div>
+        </div>
+
+        <div class="form__row">
+          <label class="check">
+            <input type="checkbox" name="remember"> Remember me
+          </label>
+          <a href="{{ url_for('contact') }}" class="link">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn btn--full">Log in</button>
+      </form>
+
+      <p class="auth__footer">
+        New patient? <a href="{{ url_for('register', next=next) }}" class="link">Create an account</a>
+      </p>
+
+    </section>
+  </main>
+{% endblock %}

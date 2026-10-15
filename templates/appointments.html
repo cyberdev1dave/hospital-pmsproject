@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}My appointments{% endblock %}
+{% block css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/sections.css') }}">{% endblock %}
+{% block content %}
+<main class="sec">
+  <div class="container">
+    <p class="eyebrow">My appointments</p>
+    <h2>Your visit requests</h2>
+    <p class="lead">We confirm each request by phone or email. Call <a href="tel:+2347036120895"><strong>+234 703 612 0895</strong></a> if you need to change one.</p>
+    {% if rows %}
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Time</th><th>Department</th><th>Doctor</th><th>Reason</th><th>Status</th></tr></thead>
+        <tbody>
+          {% for r in rows %}
+          <tr><td>{{ r.visit_date|pretty_date }}</td><td>{{ r.visit_time }}</td><td>{{ r.department }}</td><td>{{ r.doctor }}</td><td>{{ r.reason }}</td><td><span class="status">{{ r.status }}</span></td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="empty">You have no requests yet.</p>
+    {% endif %}
+    <p class="actions-row"><a class="button" href="{{ url_for('home') }}#booking-panel">Request an appointment <span class="arrow" aria-hidden="true">&rarr;</span></a></p>
+  </div>
+</main>
+{% endblock %}

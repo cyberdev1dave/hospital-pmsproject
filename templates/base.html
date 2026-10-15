@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f2">
+  <title>{% block title %}Specialist care{% endblock %} | Plateau State Specialist Hospital, Jos</title>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+  {% block css %}{% endblock %}
+  <script nonce="{{ nonce }}">document.documentElement.classList.add("js")</script>
+</head>
+<body>
+
+  <div class="topbar">
+      <div class="container topbar__inner">
+        <div class="topbar__info">
+          <span class="topbar__item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            Jos, Plateau State
+          </span>
+          <a class="topbar__item" href="tel:+2347036120895">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+            +234 703 612 0895
+          </a>
+        </div>
+        <span class="topbar__motto">Service To All</span>
+      </div>
+    </div>
+
+  <header class="navbar">
+    <div class="container navbar__inner">
+
+      <a href="{{ url_for('home') }}" class="brand">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Plateau State Specialist Hospital logo" class="brand__logo">
+        <span class="brand__text">
+          <small class="brand__top">Plateau State</small>
+          <strong class="brand__name">Specialist Hospital</strong>
+          <small class="brand__sub">Jos <i>·</i> Plateau State</small>
+        </span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span></span></button>
+
+      <nav class="nav" id="site-nav" aria-label="Main navigation">
+        <ul class="nav__list">
+          <li><a href="{{ url_for('home') }}#find-care">Find care</a></li>
+          <li><a href="{{ url_for('home') }}#our-hospital">Our hospital</a></li>
+          <li><a href="{{ url_for('home') }}#visit-information">Visit information</a></li>
+          <li><a href="{{ url_for('home') }}#contact">Contact</a></li>
+          {% if current_user %}
+          <li><a href="{{ url_for('appointments') }}">My appointments</a></li>
+          <li>
+            <form method="post" action="{{ url_for('logout') }}">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="nav__logout">Logout</button>
+            </form>
+          </li>
+          {% else %}
+          <li><a href="{{ url_for('login') }}">Login</a></li>
+          {% endif %}
+        </ul>
+        <a href="{{ url_for('home') }}#visit-information" class="btn">
+          Book a visit
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
+        </a>
+      </nav>
+
+    </div>
+  </header>
+
+  {% block flashes %}{% include "_flashes.html" %}{% endblock %}
+
+  {% block content %}{% endblock %}
+
+  <footer class="site-foot">
+    <div class="container">
+      <span>&copy; Plateau State Specialist Hospital, No. 2 John Mark Samchi Road, Jos</span>
+      <span>Service To All</span>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/site.js') }}" nonce="{{ nonce }}"></script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+/* Login and register pages. Uses variables and .btn from base.css */
+
+.auth {
+  min-height: calc(100vh - 170px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+  background: linear-gradient(135deg, #f4f6f3 0%, #e6efe9 100%);
+}
+
+.auth__card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 40px 36px;
+  box-shadow: 0 10px 30px rgba(18, 78, 58, 0.08);
+  text-align: center;
+}
+
+.auth__logo {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  margin-bottom: 16px;
+}
+
+.auth__title {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.auth__subtitle {
+  color: var(--muted);
+  font-size: 15px;
+  margin-bottom: 28px;
+}
+
+/* Form */
+.form { text-align: left; }
+
+.field { margin-bottom: 18px; }
+
+.field label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.field input {
+  width: 100%;
+  padding: 13px 14px;
+  font: inherit;
+  font-size: 15px;
+  color: var(--text);
+  background: #fff;
+  border: 1px solid #d5dad4;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field input:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(23, 112, 79, 0.15);
+}
+
+.field__password { position: relative; }
+.field__password input { padding-right: 64px; }
+
+.toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: 0;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green);
+  cursor: pointer;
+}
+
+.form__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 22px;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.check input { accent-color: var(--green); }
+
+.link {
+  color: var(--green);
+  font-weight: 500;
+}
+
+.link:hover { text-decoration: underline; }
+
+.btn--full {
+  width: 100%;
+  justify-content: center;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.auth__footer {
+  margin-top: 24px;
+  font-size: 14px;
+  color: var(--muted);
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .auth__card { padding: 30px 22px; }
+}
+
+.field__error { display:block; min-height:0; margin-top:6px; font-size:13px; color:#c0392b; }
+.field input.invalid { border-color:#c0392b; }

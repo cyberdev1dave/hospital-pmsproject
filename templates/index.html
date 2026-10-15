@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% block title %}Specialist care. One clear next step.{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/sections.css') }}">
+{% endblock %}
+{% block content %}
+  <main>
+  <section class="hero" id="top">
+    <section class="copy" aria-labelledby="headline">
+      <h1 id="headline">Specialist care.<br>One clear <em>next step.</em></h1>
+      <p class="intro">Find the right care area and plan a visit to Plateau State Specialist Hospital, Jos.</p>
+      <div class="actions">
+        <a class="button" href="#booking-panel">
+          Request an appointment <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="text-link" href="#find-care">Explore specialist care <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="location" aria-label="Location: Plateau State, Nigeria">
+        <span class="pin" aria-hidden="true">♧</span>
+        <span><strong>Here in Jos</strong><span>Plateau State, Nigeria</span></span>
+      </div>
+    </section>
+
+    <section class="visual" aria-label="Doctor discussing care with a patient">
+      <img src="{{ url_for('static', filename='images/doctor-patient.webp') }}" alt="A doctor in a white coat talks with a patient during a consultation">
+    </section>
+  </section>
+
+    <!-- FIND CARE: doctors + booking, all on this page -->
+    <section class="sec" id="find-care">
+      <div class="container">
+        <p class="eyebrow">Find care</p>
+        <h2>Choose a doctor and request your visit</h2>
+        <p class="lead">Pick a doctor on the left, or choose “Any available doctor” in the form. You need to log in to book, and we will confirm your time by phone or email.</p>
+        <div class="care-grid">
+          <div class="docs">
+            {% for d in doctors %}
+            <article class="doc">
+              <div class="ph">
+                {% if d.crop is not none %}<img src="{{ url_for('static', filename='images/' ~ d.image) }}" alt="{{ d.name }}" style="--x:{{ d.crop }}">
+                {% else %}<img class="cover" src="{{ url_for('static', filename='images/' ~ d.image) }}" alt="{{ d.name }}">{% endif %}
+              </div>
+              <div class="doc__body">
+                <span class="chip">{{ d.department }}</span>
+                <h3>{{ d.name }}</h3>
+                {% if d.role %}<p class="role">{{ d.role }}</p>{% endif %}
+                {% if d.credentials %}<ul class="creds">{% for c in d.credentials %}<li>{{ c }}</li>{% endfor %}</ul>{% endif %}
+                <p class="desc">{{ d.blurb }}</p>
+                <button type="button" class="book-btn" data-doctor="{{ d.name }}" data-dept="{{ d.department }}">Book<span class="nm"> with {{ d.name }}</span> <span aria-hidden="true">&rarr;</span></button>
+              </div>
+            </article>
+            {% endfor %}
+          </div>
+
+          <div class="booking-panel" id="booking-panel" data-login-url="{{ login_url }}">
+            {% if current_user %}
+            <form class="form" id="booking" action="{{ url_for('book') }}" method="post" data-endpoint="{{ url_for('book') }}" novalidate>
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <h3>Request an appointment</h3>
+              <p class="signed-in">Signed in as {{ current_user.name }}</p>
+              <label>Full name<input name="name" required autocomplete="name" maxlength="80" value="{{ current_user.name }}"></label>
+              <div class="row2">
+                <label>Phone<input name="phone" type="tel" required autocomplete="tel" value="{{ current_user.phone }}"></label>
+                <label>Email<input name="email" type="email" autocomplete="email" maxlength="120" value="{{ current_user.email }}"></label>
+              </div>
+              <div class="row2">
+                <label>Department
+                  <select name="department" id="dept" required>
+                    <option value="">Select</option>{% for x in departments %}<option>{{ x }}</option>{% endfor %}
+                  </select></label>
+                <label>Doctor
+                  <select name="doctor" id="doctor">{% for x in doctor_names %}<option>{{ x }}</option>{% endfor %}</select></label>
+              </div>
+              <div class="row2">
+                <label>Preferred date<input name="date" type="date" id="date" required></label>
+                <label>Preferred time
+                  <select name="time">{% for x in times %}<option>{{ x }}</option>{% endfor %}</select></label>
+              </div>
+              <label>Reason for visit<textarea name="reason" rows="3" required minlength="3" maxlength="1000"></textarea></label>
+              <button class="button" type="submit">Request appointment <span class="arrow" aria-hidden="true">&rarr;</span></button>
+              <p class="form-note" role="status"></p>
+            </form>
+            {% else %}
+            <div class="form lock" id="booking-lock">
+              <div class="lock__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+              <h3>Log in to book a visit</h3>
+              <p>Appointments are for registered patients. Log in, or create an account in a minute, to request your visit.</p>
+              <a class="button" href="{{ login_url }}">Log in <span class="arrow" aria-hidden="true">&rarr;</span></a>
+              <p class="lock__alt">New patient? <a href="{{ url_for('register', next=url_for('home') ~ '#booking-panel') }}">Create an account</a></p>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OUR HOSPITAL -->
+    <section class="sec alt" id="our-hospital">
+      <div class="container split">
+        <img src="{{ url_for('static', filename='images/plateau-team.webp') }}" alt="Doctors and nurses of the hospital standing together">
+        <div>
+          <p class="eyebrow">Our hospital</p>
+          <h2>Specialist care for Jos and Plateau State</h2>
+          <p class="lead left">Plateau State Specialist Hospital brings doctors, nurses and support staff together so that every patient knows who is caring for them and what happens next.</p>
+          <ul class="ticks">
+            <li>Specialist doctors in one place</li>
+            <li>A clear plan after every consultation</li>
+            <li>Our promise: <em>Service To All</em></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISIT INFORMATION -->
+    <section class="sec" id="visit-information">
+      <div class="container">
+        <p class="eyebrow">Visit information</p>
+        <h2>Planning your visit</h2>
+        <div class="info-grid">
+          <article><h3>Visit times</h3><p>Call ahead to ask about a clinic or confirm visit times: <a href="tel:+2347036120895"><strong>+234 703 612 0895</strong></a></p></article>
+          <article><h3>Need help getting here?</h3><p>Call the hospital for directions before you travel.</p></article>
+          <article><h3>Where to find us</h3><p>Plateau State Specialist Hospital<br>No. 2 John Mark Samchi Road, Jos<br><a href="https://www.google.com/maps/search/?api=1&amp;query=No.+2+John+Mark+Samchi+Road+Jos" target="_blank" rel="noopener"><strong>Get directions &rarr;</strong></a></p></article>
+          <article><h3>What to bring</h3><p>A valid ID, your referral letter if you have one, and any previous medical records.</p></article>
+        </div>
+        <div class="info-cta">
+          <p>Ready to see a doctor? Log in and request your visit in a minute.</p>
+          <a class="button" href="{{ url_for('home') }}#booking-panel">Book an appointment <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="sec alt" id="contact">
+      <div class="container care-grid">
+        <div>
+          <p class="eyebrow">Contact</p>
+          <h2>Contact the hospital</h2>
+          <p class="lead left">Send us a question, feedback or a complaint. Tell us what happened and how to reach you, and we will follow up.</p>
+          <ul class="contact-list">
+            <li><strong>Phone</strong><a href="tel:+2347036120895">+234 703 612 0895</a></li>
+            <li><strong>Email</strong><a href="mailto:info@psshjos.com.ng">info@psshjos.com.ng</a></li>
+            <li><strong>Address</strong><a href="https://www.google.com/maps/search/?api=1&amp;query=No.+2+John+Mark+Samchi+Road+Jos" target="_blank" rel="noopener">No. 2 John Mark Samchi Road, Jos</a></li>
+          </ul>
+        </div>
+        <form class="form" id="contact-form" action="{{ url_for('send_message') }}" method="post" data-endpoint="{{ url_for('send_message') }}" novalidate>
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <h3>Send a message</h3>
+          <label>Full name<input name="name" required autocomplete="name" maxlength="80"{% if current_user %} value="{{ current_user.name }}"{% endif %}></label>
+          <label>Email<input name="email" type="email" required autocomplete="email" maxlength="120"{% if current_user %} value="{{ current_user.email }}"{% endif %}></label>
+          <label>This message is a
+            <select name="type"><option>Complaint</option><option>Enquiry</option><option>Feedback</option><option>Compliment</option></select></label>
+          <label>Your complaint or message<textarea name="message" rows="5" required minlength="5" maxlength="2000"></textarea></label>
+          <button class="button" type="submit">Send message <span class="arrow" aria-hidden="true">&rarr;</span></button>
+          <p class="form-note" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+{% endblock %}

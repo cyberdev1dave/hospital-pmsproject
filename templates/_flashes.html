@@ -1,0 +1,3 @@
+{% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}
+<div class="container flashes">{% for cat, msg in messages %}<p class="flash {{ cat }}" role="status">{{ msg }}</p>{% endfor %}</div>
+{% endif %}{% endwith %}

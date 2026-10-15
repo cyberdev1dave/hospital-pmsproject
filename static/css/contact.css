@@ -1,0 +1,129 @@
+/* Uses variables from navbar.css */
+
+.contact {
+  background: #f8f7f0;
+  padding: 130px 0;
+}
+
+.contact__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+/* Left */
+.eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 18px;
+}
+
+.contact__title {
+  font-family: "Newsreader", Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(44px, 6vw, 68px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+
+.contact__title em {
+  font-style: italic;
+  color: var(--green);
+}
+
+.contact__text {
+  max-width: 440px;
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+
+/* Right */
+.contact__list {
+  border-top: 1px solid #e3e5dd;
+}
+
+.contact__list li {
+  border-bottom: 1px solid #e3e5dd;
+}
+
+.contact__item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 26px 8px;
+  transition: background 0.2s ease, padding 0.2s ease;
+}
+
+.contact__item:hover {
+  background: rgba(23, 112, 79, 0.05);
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.contact__icon {
+  flex: 0 0 46px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid #e3e5dd;
+  display: grid;
+  place-items: center;
+}
+
+.contact__icon svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: var(--green);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.contact__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.contact__body small {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.contact__body strong {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.contact__arrow {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: #7a7f7b;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.2s ease, stroke 0.2s ease;
+}
+
+.contact__item:hover .contact__arrow {
+  stroke: var(--green);
+  transform: translate(3px, -3px);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .contact { padding: 70px 0; }
+  .contact__inner { grid-template-columns: 1fr; gap: 48px; }
+}
